@@ -1,3 +1,4 @@
+import daisyui from "daisyui";
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -7,5 +8,8 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [require("daisyui")], // <- add daisyui here
+  plugins: [require("daisyui")],
+  daisyui:{
+    themes: ["dim"], // <- this line is important
+  } // <- add daisyui here
 };
