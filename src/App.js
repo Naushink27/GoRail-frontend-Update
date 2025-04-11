@@ -2,20 +2,38 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About"; 
 import Contact from "./pages/Contact";
-
+import Trains from "./components/Trains";
 import React from "react";
+import { Provider } from "react-redux";
+import appStore from "./utils/appStore";
+import  { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import Loader from './components/Loader';
 
 
 function App() {
+
+  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setLoading(true);
+    const timeout = setTimeout(() => setLoading(false), 1200); // show loader for 1.2s
+    return () => clearTimeout(timeout);
+  }, [location]);
   return (
+    <Provider store={appStore}>
     <>
-    
-    <Routes>
+    {loading && <Loader />}
+    {!loading && ( <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
-    </Routes>
+      <Route path="/trains" element={<Trains />} />
+    </Routes>)}
+   
     </>
+    </Provider>
   );
 }
 

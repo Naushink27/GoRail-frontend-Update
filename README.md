@@ -17,4 +17,13 @@
  - And after succesfully logged in user should get the train which is searched before log in,
  - Try to add train loader between pages loads.
  - Create get train page.
+
+ # Day3:
+ * Created redux store. 
+ * Created train slice with all the trains the user wants.
+ * Then validate trainSearchForm .
+ * Enabled toastify errors.
+ * Added liltle Animation like loader.
+
+ 
  
