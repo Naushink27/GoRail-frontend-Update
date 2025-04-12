@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <footer className="footer sm:footer-horizontal bg-gradient-to-r from-[#0F2027] via-[#203A43] to-[#2C5364]text-neutral-content p-10">
+    <footer className="footer  sm:footer-horizontal bg-gradient-to-r from-[#0F2027] via-[#203A43] to-[#2C5364]text-neutral-content pt-45 pb-auto w-full ">
     <aside>
       <svg
         width="50"

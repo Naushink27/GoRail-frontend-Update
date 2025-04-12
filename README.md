@@ -26,4 +26,13 @@
  * Added liltle Animation like loader.
 
  
+# Day4:
+* Created Trains page.
+* Subscribed to the train slice.
+* Also showed details of train.
+* Created user slice.
+* also store train data in redux persist bcs as page loads data get removed .
+* Redirection to login page.
+
+
  

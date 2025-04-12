@@ -27,7 +27,7 @@ const TrainBookingForm = () => {
       seatType
     },{withCredentials:true})
     console.log(res.data)
-    dispatch(addTrain(res.data))
+    dispatch(addTrain(res.data.train))
     Navigate('/trains')
   }
     catch(err){

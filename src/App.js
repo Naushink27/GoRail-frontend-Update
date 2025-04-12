@@ -9,7 +9,9 @@ import appStore from "./utils/appStore";
 import  { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Loader from './components/Loader';
-
+import { persistor } from '../src/utils/appStore';
+import { PersistGate } from 'redux-persist/integration/react';
+import Login from "./components/Login";
 
 function App() {
 
@@ -23,6 +25,7 @@ function App() {
   }, [location]);
   return (
     <Provider store={appStore}>
+        <PersistGate loading={null} persistor={persistor}>
     <>
     {loading && <Loader />}
     {!loading && ( <Routes>
@@ -30,9 +33,11 @@ function App() {
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/trains" element={<Trains />} />
+      <Route path='/login' element={<Login/>}/>
     </Routes>)}
    
     </>
+    </PersistGate>
     </Provider>
   );
 }
