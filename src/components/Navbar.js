@@ -1,9 +1,36 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { FaTrain } from "react-icons/fa";
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { BASE_URL } from '../utils/constants';
+import { removeUser } from '../utils/userSlice';
+import { persistor } from '../utils/appStore';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const user=useSelector((store)=>store.user)
+  const dispatch=useDispatch();
+  console.log(user)
+  
+  const routes = [
+    { name: 'HOME', path: '/' },
+    { name: 'ABOUT', path: '/about' },
+    { name: 'CONTACT', path: '/contact' },
+    { name: 'LOGIN', path: '/login' },
+  ];
+const handleLogout=async()=>{
+try{
+  const res=await axios.get(BASE_URL+'/logout',{withCredentials:true})
+  console.log(res)
+  dispatch(removeUser())
 
+
+}
+catch(err){
+
+}
+}
   return (
     <nav className="bg-gradient-to-r from-[#0F2027] via-[#203A43] to-[#2C5364] text-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between px-4 py-3 md:py-4">
@@ -15,41 +42,24 @@ const Navbar = () => {
 
         {/* Middle: Links (Desktop) */}
         <div className="hidden md:flex gap-6 text-base font-medium">
-          {['HOME', 'ABOUT', 'CONTACT', 'LOGIN'].map((item, index) => (
-            <a
-              key={index}
-              className="hover:text-[#f52c6c] transition duration-200 cursor-pointer"
-            >
-              {item}
-            </a>
-          ))}
-        </div>
+      {routes.map((item, index) => (
+        <Link
+          key={index}
+          to={item.path}
+          className="hover:text-[#f52c6c] transition duration-200 cursor-pointer"
+        >
+          {item.name}
+        </Link>
+      ))}
+    </div>
 
         {/* Right: Search + Avatar */}
-        <div className="flex items-center gap-4">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-sm input-bordered w-28 md:w-44 text-black px-3 py-1 rounded-md"
-          />
-          <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Profile"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                />
-              </div>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu dropdown-content z-[1] mt-3 p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li><a className="justify-between">Profile <span className="badge">New</span></a></li>
-              <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
-            </ul>
-          </div>
+      {user!=='null'&& <div className="flex items-center gap-4">
+         
+        <button className="btn  bg-[#f52c6c] text-white" onClick={handleLogout}>Logout</button>
+            
+            
+          </div>}
 
           {/* Mobile menu toggle */}
           <div className="md:hidden">
@@ -61,7 +71,7 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-      </div>
+      
 
       {/* Mobile Dropdown */}
       {menuOpen && (

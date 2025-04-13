@@ -34,5 +34,12 @@
 * also store train data in redux persist bcs as page loads data get removed .
 * Redirection to login page.
 
+# Day5:
+* Created login page.
+* Created Signup page.
+* Also handled errors and toaster notifications.
+* Implemented logout api .
+* Also show login message if user dont exist
+* toggle based Login and signup form 
 
  

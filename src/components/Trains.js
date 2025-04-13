@@ -9,13 +9,14 @@ const Trains = () => {
   const trains = useSelector((store) => store.train)
   const user = useSelector((store) => store.user)
   const [activeAlertIndex, setActiveAlertIndex] = useState(false)
+  const isLoggedIn = !!user;
 
   console.log(trains)
   const handleBook = (index) => {
-    if (user.length === 0) {
+    if (isLoggedIn) {
       setActiveAlertIndex(index); 
     } else {
-      
+      setActiveAlertIndex()
     }
   };
   const navigate=useNavigate();
