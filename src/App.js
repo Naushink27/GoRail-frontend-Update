@@ -12,6 +12,8 @@ import Loader from './components/Loader';
 import { persistor } from '../src/utils/appStore';
 import { PersistGate } from 'redux-persist/integration/react';
 import Login from "./components/Login";
+import Book from "./components/Book";
+import AllBookings from "./components/AllBookings";
 
 function App() {
 
@@ -34,6 +36,8 @@ function App() {
       <Route path="/contact" element={<Contact />} />
       <Route path="/trains" element={<Trains />} />
       <Route path='/login' element={<Login/>}/>
+      <Route path='/book' element={<Book/>} />
+      <Route path='/allbookings' element={<AllBookings/>}/>
     </Routes>)}
    
     </>

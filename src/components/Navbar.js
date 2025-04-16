@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { FaTrain } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/constants';
 import { removeUser } from '../utils/userSlice';
 import { persistor } from '../utils/appStore';
@@ -11,6 +11,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const user=useSelector((store)=>store.user)
   const dispatch=useDispatch();
+  const navigate=useNavigate();
   console.log(user)
   
   const routes = [
@@ -19,18 +20,19 @@ const Navbar = () => {
     { name: 'CONTACT', path: '/contact' },
     { name: 'LOGIN', path: '/login' },
   ];
-const handleLogout=async()=>{
-try{
-  const res=await axios.get(BASE_URL+'/logout',{withCredentials:true})
-  console.log(res)
-  dispatch(removeUser())
-
-
-}
-catch(err){
-
-}
-}
+  const handleLogout = async () => {
+    try {
+      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
+  
+      dispatch(removeUser());
+      await persistor.purge(); 
+  
+      console.log("Logout successful");
+      navigate('/login');
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
   return (
     <nav className="bg-gradient-to-r from-[#0F2027] via-[#203A43] to-[#2C5364] text-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between px-4 py-3 md:py-4">
@@ -54,7 +56,7 @@ catch(err){
     </div>
 
         {/* Right: Search + Avatar */}
-      {user!=='null'&& <div className="flex items-center gap-4">
+      {user && <div className="flex items-center gap-4">
          
         <button className="btn  bg-[#f52c6c] text-white" onClick={handleLogout}>Logout</button>
             

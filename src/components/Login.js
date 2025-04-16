@@ -210,17 +210,30 @@ console.log(BASE_URL)
             </div>
           </form>
        {errors && <p className='text-red-500 text-center pt-3'>{errors}</p>}
-         {isLogin? <p className="mt-10 text-center text-sm/6 text-gray-500">
-            Not a member?{' '}
-            <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500" onClick={()=>setIsLogin(!isLogin)}>
-             Click to create account!
-            </a>
-          </p>: <p className="mt-10 text-center text-sm/6 text-gray-500">
-            Already a user?{' '}
-            <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500" onClick={()=>setIsLogin(!isLogin)}>
-             Click to Login!
-            </a>
-          </p>}
+       {isLogin ? (
+  <p className="mt-10 text-center text-sm/6 text-gray-500">
+    Not a member?{' '}
+    <button
+      type="button"
+      className="font-semibold text-indigo-600 hover:text-indigo-500"
+      onClick={() => setIsLogin(false)}
+    >
+      Click to create account!
+    </button>
+  </p>
+) : (
+  <p className="mt-10 text-center text-sm/6 text-gray-500">
+    Already a user?{' '}
+    <button
+      type="button"
+      className="font-semibold text-indigo-600 hover:text-indigo-500"
+      onClick={() => setIsLogin(true)}
+    >
+      Click to Login!
+    </button>
+  </p>
+)}
+
         </div>
       </div>
       <Footer/>

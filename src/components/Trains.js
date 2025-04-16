@@ -1,23 +1,30 @@
 import React from 'react'
 import Navbar from './Navbar'
 import Footer from '../pages/Footer'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { addBookTrain } from '../utils/bookTrainSlice'
 
 const Trains = () => {
   const trains = useSelector((store) => store.train)
   const user = useSelector((store) => store.user)
+  console.log(user)
   const [activeAlertIndex, setActiveAlertIndex] = useState(false)
-  const isLoggedIn = !!user;
+  const dispatch=useDispatch()
 
   console.log(trains)
   const handleBook = (index) => {
-    if (isLoggedIn) {
-      setActiveAlertIndex(index); 
-    } else {
-      setActiveAlertIndex()
+  
+    if(user){
+      console.log(trains[index])
+      dispatch(addBookTrain(trains[index]))
+      navigate('/book')
     }
+   else{
+    setActiveAlertIndex(index) 
+   }
   };
   const navigate=useNavigate();
   const handleLoginPage=(data)=>{
@@ -70,19 +77,20 @@ const Trains = () => {
 
                   </div>
                   <div className='pt-4 '>
-                    <button className="btn btn-accent text-white font-serif" onClick={()=>handleBook(index)}>Book</button>
-                   {activeAlertIndex=== index &&(
-                    <div role="alert" className="alert alert-vertical sm:alert-horizontal pt-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info h-6 w-6 shrink-0">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span>Please Login first to Book a ticket!! Want to redirect to login page?</span>
-                    <div>
-                      <button className="btn btn-sm" onClick={()=>handleLoginPage('Deny')}>Deny</button>
-                      <button className="btn btn-sm btn-primary" onClick={()=>handleLoginPage('Accept')}>Accept</button>
-                    </div>
-                  </div>
-                   )}
+                  <button className="btn btn-accent text-white font-serif" onClick={() => handleBook(index)}>Book</button>
+                  {activeAlertIndex === index && !user && (
+  <div role="alert" className="alert alert-vertical sm:alert-horizontal pt-3">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info h-6 w-6 shrink-0">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    </svg>
+    <span>Please Login first to Book a ticket!! Want to redirect to login page?</span>
+    <div>
+      <button className="btn btn-sm" onClick={() => handleLoginPage('Deny')}>Deny</button>
+      <button className="btn btn-sm btn-primary" onClick={() => handleLoginPage('Accept')}>Accept</button>
+    </div>
+  </div>
+)}
+
                   </div>
 
                 </div>

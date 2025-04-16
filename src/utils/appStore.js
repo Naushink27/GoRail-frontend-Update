@@ -13,16 +13,16 @@ import storage from 'redux-persist/lib/storage';
 
 import getTrainSlice from './getTrainSlice';
 import userSlice from './userSlice';
-
+import bookTrainSlice from './bookTrainSlice'
 const rootReducer = combineReducers({
   train: getTrainSlice,
   user: userSlice,
+  bookTrain:bookTrainSlice
 });
 
 const persistConfig = {
   key: 'root',
-  storage,
-  blacklist: ['user']
+  storage
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
