@@ -42,4 +42,30 @@
 * Also show login message if user dont exist
 * toggle based Login and signup form 
 
+# Day6:
+* Some bugs from login,signup and logout.
+* Book component.
+
+# Day7:
+* Complete book api.
+* Create api for get all bookings.
+* Show buttons for payment if not done.
+
+# Day8:
+* Complete book api.
+* Create api for get all bookings.
+* And solved so many erros.
  
+# Day 9:
+* payment done .
+* have to import razorpay script in html
+* Solved all errors.
+* About and contact us oage.
+* Minor navbar changes
+
+
+
+___________________________________________________________________________
+**** Errors:
+1. Please login first in booking api.
+2.Payment button not for all cards.
