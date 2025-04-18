@@ -14,6 +14,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Login from "./components/Login";
 import Book from "./components/Book";
 import AllBookings from "./components/AllBookings";
+import AdminDashboard from "./components/AdminDashboard";
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
       <Route path='/login' element={<Login/>}/>
       <Route path='/book' element={<Book/>} />
       <Route path='/allbookings' element={<AllBookings/>}/>
+      <Route path='/adminDashboard' element={<AdminDashboard/>}/>
     </Routes>)}
    
     </>

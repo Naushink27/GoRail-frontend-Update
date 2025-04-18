@@ -35,7 +35,11 @@ console.log(BASE_URL)
               setShowSuccessAlert(true);
               setTimeout(()=>{
                 setShowSuccessCreateAlert(false)
-                navigate('/trains')
+                if(res.data.user.role=="user"){
+                navigate('/trains')}
+                else{
+                  navigate('/adminDashboard')
+                }
               },1000)
              }
      
