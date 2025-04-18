@@ -1,11 +1,86 @@
-import React from 'react'
+import React from 'react';
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import Navbar from '../components/Navbar';
+import Footer from './Footer';
 
 const Contact = () => {
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#141e30] to-[#243b55] text-white">
+      <Navbar />
 
-export default Contact
+      <main className="flex-1 px-6 py-10 max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-4">Contact Us</h1>
+        <p className="text-center text-lg text-gray-300 mb-10">
+          Got questions, feedback, or issues? We're here to help!
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          {/* Contact Info */}
+          <div className="bg-white/10 p-8 rounded-2xl shadow-xl space-y-6">
+            <div className="flex items-start gap-4">
+              <FaMapMarkerAlt className="text-3xl text-yellow-400" />
+              <div>
+                <h3 className="font-semibold text-xl">Our Office</h3>
+                <p className="text-gray-300">123 Railway Avenue, Mumbai, India</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <FaPhoneAlt className="text-3xl text-green-400" />
+              <div>
+                <h3 className="font-semibold text-xl">Call Us</h3>
+                <p className="text-gray-300">+91 98765 43210</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <FaEnvelope className="text-3xl text-blue-400" />
+              <div>
+                <h3 className="font-semibold text-xl">Email</h3>
+                <p className="text-gray-300">support@gorail.in</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <form className="bg-white/10 p-8 rounded-2xl shadow-xl space-y-6">
+            <div>
+              <label className="block text-sm mb-1">Full Name</label>
+              <input
+                type="text"
+                className="w-full p-3 rounded-md bg-white/20 text-white placeholder-gray-300 focus:outline-none"
+                placeholder="Enter your name"
+              />
+            </div>
+            <div>
+              <label className="block text-sm mb-1">Email</label>
+              <input
+                type="email"
+                className="w-full p-3 rounded-md bg-white/20 text-white placeholder-gray-300 focus:outline-none"
+                placeholder="you@example.com"
+              />
+            </div>
+            <div>
+              <label className="block text-sm mb-1">Message</label>
+              <textarea
+                rows="4"
+                className="w-full p-3 rounded-md bg-white/20 text-white placeholder-gray-300 focus:outline-none"
+                placeholder="Write your message here..."
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-yellow-400 text-black font-semibold px-6 py-3 rounded-md hover:bg-yellow-500 transition-all"
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default Contact;

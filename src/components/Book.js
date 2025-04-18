@@ -46,7 +46,7 @@ try{
       setBookingAlert(false)
       navigate('/allbookings')
  
-    },2000)
+    },5000)
   }
 }catch(err){
 

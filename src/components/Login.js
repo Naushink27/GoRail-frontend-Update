@@ -50,7 +50,7 @@ console.log(BASE_URL)
           password
         },{withCredentials:true})
         console.log(res)
-        dispatch(addUser(res.data))
+        
         if(res.data){
           setShowSuccessCreateAlert(true)
           setTimeout(()=>{

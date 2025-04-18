@@ -17,8 +17,7 @@ const Navbar = () => {
   const routes = [
     { name: 'HOME', path: '/' },
     { name: 'ABOUT', path: '/about' },
-    { name: 'CONTACT', path: '/contact' },
-    { name: 'LOGIN', path: '/login' },
+    { name: 'CONTACT', path: '/contact' }
   ];
   const handleLogout = async () => {
     try {
@@ -33,6 +32,9 @@ const Navbar = () => {
       console.error("Logout failed", err);
     }
   };
+  const handleLogin=()=>{
+    navigate('/login')
+  }
   return (
     <nav className="bg-gradient-to-r from-[#0F2027] via-[#203A43] to-[#2C5364] text-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between px-4 py-3 md:py-4">
@@ -53,15 +55,24 @@ const Navbar = () => {
           {item.name}
         </Link>
       ))}
+        { user &&<Link
+          
+          to='/allbookings'
+          className="hover:text-[#f52c6c] transition duration-200 cursor-pointer"
+        >
+          All BOOKINGS
+        </Link>}
+      
     </div>
 
         {/* Right: Search + Avatar */}
-      {user && <div className="flex items-center gap-4">
+      {user ? <div className="flex items-center gap-4">
          
         <button className="btn  bg-[#f52c6c] text-white" onClick={handleLogout}>Logout</button>
             
             
-          </div>}
+          </div>:        <button className="btn  bg-[#f52c6c] text-white" onClick={handleLogin}>Login</button>
+        }
 
           {/* Mobile menu toggle */}
           <div className="md:hidden">
@@ -79,11 +90,15 @@ const Navbar = () => {
       {menuOpen && (
         <div className="md:hidden px-4 pb-3">
           <ul className="flex flex-col gap-3 text-base font-medium">
-            {['HOME', 'About', 'Contact', 'Services'].map((item, index) => (
-              <li key={index}>
-                <a className="hover:text-[#f52c6c] transition duration-200 cursor-pointer">{item}</a>
-              </li>
-            ))}
+          {routes.map((item, index) => (
+        <Link
+          key={index}
+          to={item.path}
+          className="hover:text-[#f52c6c] transition duration-200 cursor-pointer"
+        >
+          {item.name}
+        </Link>
+      ))}
           </ul>
         </div>
       )}
