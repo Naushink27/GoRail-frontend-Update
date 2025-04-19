@@ -6,11 +6,26 @@ import axios from 'axios';
 import { BASE_URL } from '../utils/constants';
 import { addTrain } from '../utils/getTrainSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { addAllUser } from '../utils/allUsersSlice';
+import { addAllBookings } from '../utils/allBookingAdminSlice';
+import { removeUser } from '../utils/userSlice';
+import Login from '../components/Login'
 
 const AdminDashboard = () => {
     const dispatch = useDispatch();
+    const user=useSelector((store)=>store.user)
+
     const train = useSelector((store) => store.train || []);
+    var trainCount=0
+    train.map((trainItem)=>{
+              if(trainItem.seats.some(seat=>seat.count>0)){
+                trainCount++;
+              }
+    })
     const [trainStatuses, setTrainStatuses] = useState([]);
+    const users= useSelector((store)=>store.allUser)
+    const bookings=useSelector((store)=>store.allBooking)
+    console.log(users)
 
     const getTrainData = async () => {
         try {
@@ -30,13 +45,33 @@ const AdminDashboard = () => {
         }
     };
 
+    const getUsersData=async()=>{
+        try{
+            const users=await axios.get(BASE_URL+'/view/users',{withCredentials:true})
+            console.log(users.data.data)
+            dispatch(addAllUser(users?.data?.data))
+        }catch(err){console.log(err.message)}
+    }
+    const getBookingData=async()=>{
+        try{
+      const bookings=await axios.get(BASE_URL+'/bookings',{withCredentials:true})
+      console.log(bookings)
+      dispatch(addAllBookings(bookings.data.bookings))
+
+        }catch(Err){
+            console.log(Err.message)
+        }
+    }
     useEffect(() => {
         getTrainData();
+        getUsersData();
+        getBookingData();
     }, []);
+  
 
     return (
         <div className="flex flex-col min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
-            <div className="flex flex-1 flex-col lg:flex-row">
+          { user? <div className="flex flex-1 flex-col lg:flex-row">
                 <Sidebar />
                 <main className="flex-1 p-4 sm:p-6">
                     <div className="bg-blue-100 p-4 rounded-lg mb-6 shadow">
@@ -45,9 +80,9 @@ const AdminDashboard = () => {
                     </div>
                     <h1 className="text-3xl font-bold mb-6 text-blue-800">Admin Dashboard</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <StatCard title="Users" count={10} buttonText="View More" link="/all-users" />
-                        <StatCard title="Active Trains" count={5} />
-                        <StatCard title="Today's Bookings" count={8} buttonText="View More" link="/bookings" />
+                        <StatCard title="Users" count={users.length} buttonText="View More" link='/allUsers' />
+                        <StatCard title="Active Trains" count={trainCount} />
+                        <StatCard title="All Bookings" count={bookings.length} buttonText="View More" link="/allBookingsAdmin" />
                     </div>
                     <div className="mt-8 bg-white p-4 rounded-xl shadow overflow-x-auto">
                         <h2 className="text-xl font-semibold text-blue-800 mb-4">Train Data</h2>
@@ -100,7 +135,7 @@ const AdminDashboard = () => {
                         </div>
                     </div>
                 </main>
-            </div>
+            </div>: <Login/>}
             <Footer />
         </div>
     );

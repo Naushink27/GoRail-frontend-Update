@@ -63,6 +63,13 @@
 * About and contact us oage.
 * Minor navbar changes
 
+# day 10:
+* built admin dashboard.
+
+# Day 11:
+* Add dynamic data onto dashboard.
+* Created users page where users can be deleted by admin.
+* Created bookings page.
 
 
 ___________________________________________________________________________

@@ -15,6 +15,8 @@ import Login from "./components/Login";
 import Book from "./components/Book";
 import AllBookings from "./components/AllBookings";
 import AdminDashboard from "./components/AdminDashboard";
+import AllUsers from "./components/AllUsers";
+import AllBookingsAdminPage from "./components/AllBookingsAdminPage";
 
 function App() {
 
@@ -40,6 +42,8 @@ function App() {
       <Route path='/book' element={<Book/>} />
       <Route path='/allbookings' element={<AllBookings/>}/>
       <Route path='/adminDashboard' element={<AdminDashboard/>}/>
+      <Route path='/allUsers' element={<AllUsers/>}/>
+       <Route path='/allBookingsAdmin' element={<AllBookingsAdminPage/>}/>
     </Routes>)}
    
     </>

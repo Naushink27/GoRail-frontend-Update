@@ -14,10 +14,14 @@ import storage from 'redux-persist/lib/storage';
 import getTrainSlice from './getTrainSlice';
 import userSlice from './userSlice';
 import bookTrainSlice from './bookTrainSlice'
+import allUsersSlice from './allUsersSlice'
+import allBookingsSlice from './allBookingAdminSlice'
 const rootReducer = combineReducers({
   train: getTrainSlice,
   user: userSlice,
-  bookTrain:bookTrainSlice
+  bookTrain:bookTrainSlice,
+  allUser:allUsersSlice,
+ allBooking:allBookingsSlice
 });
 
 const persistConfig = {

@@ -17,10 +17,10 @@ export default function Sidebar() {
         <Link to="/update-train" className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded">
           <FaEdit /> Update Train
         </Link>
-        <Link to="/bookings" className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded">
+        <Link to="/allBookingsAdmin" className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded">
           <FaList /> View Bookings
         </Link>
-        <Link to="/all-users" className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded">
+        <Link to="/allUsers" className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded">
           <FaUsers /> View All Users
         </Link>
       </nav>
