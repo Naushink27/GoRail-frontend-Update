@@ -1,15 +1,86 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import { useSelector } from 'react-redux';
 import Login from "../components/Login";
+import { BASE_URL } from '../utils/constants';
+import axios from 'axios';
+import { addAllBookings } from '../utils/allBookingAdminSlice';
+import { useDispatch } from 'react-redux';
+import { addAllUser } from '../utils/allUsersSlice';
 
 const AllBookingsAdminPage = () => {
-    const bookings = useSelector((store) => store.allBooking);
-    const user = useSelector((store) => store.user);
+    const dispatch = useDispatch();
+    const bookings = useSelector((store) => store.allBooking || []);
+    const user = useSelector((store) => store.user || []);
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+
+    const [showAlert, setShowAlert] = useState();
+    const [selectedBookingId,setSelectedBookingId] = useState(null);
+
+    const getBookingData = async () => {
+        try {
+            const res = await axios.get(BASE_URL + '/bookings', { withCredentials: true });
+            dispatch(addAllBookings(res?.data?.bookings || []));
+        }catch(Err){
+            console.log(Err.message);
+        }
+    }
+    useEffect(()=>{
+        getBookingData();
+    })
+
+    const handleJourneyStatusUpdate = async (bookingId,status) => {
+        try {
+             const res= await axios.post(BASE_URL+'/verifybooking/'+status+'/'+bookingId,{},{withCredentials:true});
+             console.log(res.data);
+             setShowSuccessAlert(true)
+             setTimeout(()=>{
+                setShowSuccessAlert(false)
+             },5000)
+
+        } catch (err) {
+            console.error("Failed to update booking status", err);
+        }
+    }
 
     return (
         <div className="flex flex-col min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
+            {showAlert && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+                    <div className="bg-white rounded-lg p-6 w-80 text-center shadow-lg">
+                        <h2 className="text-lg font-semibold mb-4">Confirm Update</h2>
+                        <p className="mb-6">Do you want to update this booking?</p>
+                        <div className="flex justify-around">
+                            <button
+                                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                                onClick={() => {
+                                    setShowAlert(false);
+                                   handleJourneyStatusUpdate(selectedBookingId,"confirmed")
+                                }}
+                            >
+                               Confirmed
+                            </button>
+                            <button
+                                className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+                                onClick={() => {setShowAlert(false);
+                                    handleJourneyStatusUpdate(selectedBookingId,"cancelled")
+                                }}
+                            >
+                                Cancelled
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+{showSuccessAlert && (
+     <div role="alert" className="alert alert-success absolute top-4 right-4 z-50 bg-green-500 text-white p-4 rounded flex items-center gap-2 shadow-lg">
+     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-white" fill="none" viewBox="0 0 24 24">
+       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+     </svg>
+     <span>Update successful!!</span>
+   </div>
+)}
             {user ? (
                 <div className="flex flex-1 flex-col lg:flex-row">
                     <Sidebar />
@@ -30,37 +101,46 @@ const AllBookingsAdminPage = () => {
                                             <th className="border px-4 py-2">Source</th>
                                             <th className="border px-4 py-2">Destination</th>
                                             <th className="border px-4 py-2">Seat Type</th>
-                                            <th className="border px-4 py-2">BookingDate</th>
+                                            <th className="border px-4 py-2">Booking Date</th>
                                             <th className="border px-4 py-2">Payment Status</th>
-                                            <th className="border px-4 py-2">journeyStatus</th>
+                                            <th className="border px-4 py-2">Journey Status</th>
+                                            <th className="border px-4 py-2">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-blue-900">
                                         {bookings.length > 0 ? (
                                             bookings.map((booking, index) => {
                                                 const bookingDate = new Date(booking.createdAt).toLocaleDateString();
+                                                const isConfirmed = booking.journeyStatus === "confirmed";
+
                                                 return (
+
                                                     <tr key={index} className="hover:bg-blue-100">
+
                                                         <td className="border px-4 py-2">{booking._id}</td>
                                                         <td className="border px-4 py-2">{booking.name || "N/A"}</td>
                                                         <td className="border px-4 py-2">{booking.source || "N/A"}</td>
                                                         <td className="border px-4 py-2">{booking.destination || "N/A"}</td>
-                                                        <td className="border px-4 py-2">
-                                                          {booking.seatType}
-                                                        </td>
+                                                        <td className="border px-4 py-2">{booking.seatType}</td>
                                                         <td className="border px-4 py-2">{bookingDate}</td>
                                                         <td className="border px-4 py-2">{booking.paymentStatus}</td>
-                                                        <td className={`border px-4 py-2 font-semibold ${
-                                                            booking.journeyStatus === "confirmed" ? "text-green-600" : "text-red-600"
-                                                        }`}>
+                                                        <td className={`border px-4 py-2 font-semibold ${isConfirmed ? "text-green-600" : "text-red-600"}`}>
                                                             {booking.journeyStatus || "Pending"}
+                                                        </td>
+                                                        <td className="border px-4 py-2">
+                                                            {isConfirmed ? (
+                                                                <button className="text-green-700 font-medium">Already Confirmed</button>
+                                                            ) : (
+                                                                <button className="btn btn-secondary" onClick={() => {setShowAlert(true); 
+                                                                    setSelectedBookingId(booking._id);} }>Update</button>
+                                                            )}
                                                         </td>
                                                     </tr>
                                                 );
                                             })
                                         ) : (
                                             <tr>
-                                                <td colSpan="6" className="text-center py-4 text-blue-600">
+                                                <td colSpan="9" className="text-center py-4 text-blue-600">
                                                     No bookings available.
                                                 </td>
                                             </tr>
@@ -71,7 +151,9 @@ const AllBookingsAdminPage = () => {
                         </div>
                     </main>
                 </div>
-            ) : <Login />}
+            ) : (
+                <Login />
+            )}
             <Footer />
         </div>
     );

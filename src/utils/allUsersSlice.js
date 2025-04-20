@@ -2,7 +2,7 @@ import reducer from "./getTrainSlice";
 import { createSlice } from "@reduxjs/toolkit";
 const allUsersSlice= createSlice({
     name:'allUser',
-    initialState:null,
+    initialState:[],
     reducers:{
         addAllUser:(state,action)=>{
             return action.payload;

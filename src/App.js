@@ -17,6 +17,7 @@ import AllBookings from "./components/AllBookings";
 import AdminDashboard from "./components/AdminDashboard";
 import AllUsers from "./components/AllUsers";
 import AllBookingsAdminPage from "./components/AllBookingsAdminPage";
+import AddTrainPage from "./components/AddTrainPage";
 
 function App() {
 
@@ -44,6 +45,7 @@ function App() {
       <Route path='/adminDashboard' element={<AdminDashboard/>}/>
       <Route path='/allUsers' element={<AllUsers/>}/>
        <Route path='/allBookingsAdmin' element={<AllBookingsAdminPage/>}/>
+       <Route path='/addTrain' element={<AddTrainPage/>}/>
     </Routes>)}
    
     </>

@@ -2,7 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const allbookingsSlice= createSlice({
     name:'allbooking',
-    initialState:null,
+    initialState:[],
     reducers:{
         addAllBookings:(state,action)=>{
             return action.payload;

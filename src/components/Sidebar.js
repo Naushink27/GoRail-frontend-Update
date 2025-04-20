@@ -11,7 +11,7 @@ export default function Sidebar() {
       </div>
       <h2 className="text-2xl font-bold mb-6">GoRail Admin</h2>
       <nav className="flex flex-col gap-4">
-        <Link to="/add-train" className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded">
+        <Link to="/addTrain" className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded">
           <FaTrain /> Add Train
         </Link>
         <Link to="/update-train" className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded">
