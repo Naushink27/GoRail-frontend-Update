@@ -22,6 +22,7 @@ const AddTrainPage = () => {
     const [generalAmount, setGeneralAmount] = useState();
     const [sleeperAmount, setSleeperAmount] = useState();
     const [acAmount, setAcAmount] = useState();
+    const[journeyDate,setJourneyDate]=useState()
 
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
@@ -50,6 +51,7 @@ const AddTrainPage = () => {
             departureTime,
             arrivalTime,
             seats:seatData,
+            journeyDate,
             amount:amountData},{withCredentials:true})
             console.log(res.data);
         
@@ -107,17 +109,23 @@ const AddTrainPage = () => {
                                             className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                                             placeholder="Enter destination station" required />
                                     </div>
+                                    <div>
+                                        <label className="block font-medium text-blue-800 mb-1">Journey Date</label>
+                                        <input type="date" name="destination" value={journeyDate} onChange={(e) => setJourneyDate(e.target.value)}
+                                            className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+                                            placeholder="Enter destination station" required />
+                                    </div>
 
                                     <div>
                                         <label className="block font-medium text-blue-800 mb-1">Departure Time</label>
-                                        <input type="time" name="departureTime" value={departureTime} onChange={(e) => setDepartureTime(e.target.value)}
+                                        <input type="time" name="departureTime" value={departureTime} onChange={(e) => setDepartureTime(e.target.value+':00')}
                                             className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                                             required />
                                     </div>
 
                                     <div>
                                         <label className="block font-medium text-blue-800 mb-1">Arrival Time</label>
-                                        <input type="time" name="arrivalTime" value={arrivalTime} onChange={(e) => setArrivalTime(e.target.value)}
+                                        <input type="time" name="arrivalTime" value={arrivalTime} onChange={(e) => setArrivalTime(e.target.value+':00')}
                                             className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                                             required />
                                     </div>
@@ -130,6 +138,7 @@ const AddTrainPage = () => {
                                             onChange={(e) => setGeneralSeats(e.target.value)}
                                             className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                                             placeholder="100"
+                                            required
                                             
                                         />
                                     </div>
@@ -142,6 +151,7 @@ const AddTrainPage = () => {
                                             onChange={(e) => setSleeperSeats(e.target.value)}
                                             className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                                             placeholder="50"
+                                            required
                                             
                                         />
                                     </div>
@@ -154,7 +164,7 @@ const AddTrainPage = () => {
                                             onChange={(e) => setAcSeats(e.target.value)}
                                             className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                                             placeholder="30"
-                                           
+                                           required
                                         />
                                     </div>
                                     <div>
@@ -165,6 +175,7 @@ const AddTrainPage = () => {
                                             onChange={(e) => setGeneralAmount(e.target.value)}
                                             className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                                             placeholder="100"
+                                            required
                                             
                                         />
                                     </div>
@@ -177,6 +188,7 @@ const AddTrainPage = () => {
                                             onChange={(e) => setSleeperAmount(e.target.value)}
                                             className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                                             placeholder="50"
+                                            required
                                            
                                         />
                                     </div>
@@ -189,7 +201,7 @@ const AddTrainPage = () => {
                                             onChange={(e) => setAcAmount(e.target.value)}
                                             className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                                             placeholder="30"
-                                          
+                                          required
                                         />
                                     </div>
 

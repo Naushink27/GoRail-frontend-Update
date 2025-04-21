@@ -74,6 +74,10 @@
 # Day12:
 * Completed allBookings page and also completed journetStatus update.
 * Started add train Page.
+
+# Day 13:
+* Completed Add Train api.
+* Completed update Train Api.
 ___________________________________________________________________________
 **** Errors:
 1. Please login first in booking api.
