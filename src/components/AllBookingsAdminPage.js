@@ -1,51 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Login from "../components/Login";
 import { BASE_URL } from '../utils/constants';
 import axios from 'axios';
 import { addAllBookings } from '../utils/allBookingAdminSlice';
-import { useDispatch } from 'react-redux';
 import { addAllUser } from '../utils/allUsersSlice';
 
 const AllBookingsAdminPage = () => {
     const dispatch = useDispatch();
     const bookings = useSelector((store) => store.allBooking || []);
     const user = useSelector((store) => store.user || []);
+
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
+    const [selectedBookingId, setSelectedBookingId] = useState(null);
 
-    const [showAlert, setShowAlert] = useState();
-    const [selectedBookingId,setSelectedBookingId] = useState(null);
-
+    // Fetch booking data
     const getBookingData = async () => {
         try {
-            const res = await axios.get(BASE_URL + '/bookings', { withCredentials: true });
+            const res = await axios.get(`${BASE_URL}/bookings`, { withCredentials: true });
             dispatch(addAllBookings(res?.data?.bookings || []));
-        }catch(Err){
-            console.log(Err.message);
-        }
-    }
-    useEffect(()=>{
-        getBookingData();
-    })
-
-    const handleJourneyStatusUpdate = async (bookingId,status) => {
-        try {
-             const res= await axios.post(BASE_URL+'/verifybooking/'+status+'/'+bookingId,{},{withCredentials:true});
-             console.log(res.data);
-             setShowSuccessAlert(true)
-             setTimeout(()=>{
-                setShowSuccessAlert(false)
-             },5000)
-
         } catch (err) {
-            console.error("Failed to update booking status", err);
+            console.log("Booking fetch error:", err.message);
         }
-    }
+    };
+
+    useEffect(() => {
+        getBookingData();
+    }, []); // ✅ Added empty dependency array to avoid infinite loop
+
+    // Handle journey status update
+    const handleJourneyStatusUpdate = async (bookingId, status) => {
+        try {
+            const res = await axios.post(`${BASE_URL}/verifybooking/${status}/${bookingId}`, {}, { withCredentials: true });
+
+            setShowSuccessAlert(true);
+            setTimeout(() => setShowSuccessAlert(false), 5000);
+            getBookingData();
+        } catch (err) {
+            console.error("Failed to update booking status:", err);
+
+
+            const message = err?.response?.data?.message || "Something went wrong";
+            setErrorMessage(message);
+
+            setTimeout(() => setErrorMessage(''), 3000);
+        }
+    };
+
 
     return (
         <div className="flex flex-col min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
+
             {showAlert && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
                     <div className="bg-white rounded-lg p-6 w-80 text-center shadow-lg">
@@ -56,15 +65,16 @@ const AllBookingsAdminPage = () => {
                                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                                 onClick={() => {
                                     setShowAlert(false);
-                                   handleJourneyStatusUpdate(selectedBookingId,"confirmed")
+                                    handleJourneyStatusUpdate(selectedBookingId, "confirmed");
                                 }}
                             >
-                               Confirmed
+                                Confirmed
                             </button>
                             <button
                                 className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
-                                onClick={() => {setShowAlert(false);
-                                    handleJourneyStatusUpdate(selectedBookingId,"cancelled")
+                                onClick={() => {
+                                    setShowAlert(false);
+                                    handleJourneyStatusUpdate(selectedBookingId, "cancelled");
                                 }}
                             >
                                 Cancelled
@@ -73,14 +83,27 @@ const AllBookingsAdminPage = () => {
                     </div>
                 </div>
             )}
-{showSuccessAlert && (
-     <div role="alert" className="alert alert-success absolute top-4 right-4 z-50 bg-green-500 text-white p-4 rounded flex items-center gap-2 shadow-lg">
-     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-white" fill="none" viewBox="0 0 24 24">
-       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-     </svg>
-     <span>Update successful!!</span>
-   </div>
-)}
+
+            {/* Success Alert */}
+            {showSuccessAlert && (
+                <div role="alert" className="absolute top-4 right-4 z-50 bg-green-500 text-white p-4 rounded shadow-lg flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-white" fill="none" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Update successful!!</span>
+                </div>
+            )}
+
+            {/* Error Alert */}
+            {errorMessage && (
+                <div role="alert" className="absolute top-4 right-4 z-50 bg-red-500 text-white p-4 rounded shadow-lg flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-white" fill="none" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>{errorMessage}</span>
+                </div>
+            )}
+
             {user ? (
                 <div className="flex flex-1 flex-col lg:flex-row">
                     <Sidebar />
@@ -112,11 +135,10 @@ const AllBookingsAdminPage = () => {
                                             bookings.map((booking, index) => {
                                                 const bookingDate = new Date(booking.createdAt).toLocaleDateString();
                                                 const isConfirmed = booking.journeyStatus === "confirmed";
+                                                const isCancelled = booking.journeyStatus === "cancelled";
 
                                                 return (
-
                                                     <tr key={index} className="hover:bg-blue-100">
-
                                                         <td className="border px-4 py-2">{booking._id}</td>
                                                         <td className="border px-4 py-2">{booking.name || "N/A"}</td>
                                                         <td className="border px-4 py-2">{booking.source || "N/A"}</td>
@@ -128,13 +150,24 @@ const AllBookingsAdminPage = () => {
                                                             {booking.journeyStatus || "Pending"}
                                                         </td>
                                                         <td className="border px-4 py-2">
-                                                            {isConfirmed ? (
-                                                                <button className="text-green-700 font-medium">Already Confirmed</button>
+                                                            {isCancelled ? (
+                                                                <button className="text-red-700 font-medium btn-primary">Cancelled</button>
+                                                            ) : isConfirmed ? (
+                                                                <button className="text-green-700 font-medium">Confirmed</button>
                                                             ) : (
-                                                                <button className="btn btn-secondary" onClick={() => {setShowAlert(true); 
-                                                                    setSelectedBookingId(booking._id);} }>Update</button>
+                                                                <button
+                                                                    className="btn btn-accent"
+                                                                    onClick={() => {
+                                                                        setShowAlert(true);
+                                                                        setSelectedBookingId(booking._id);
+                                                                    }}
+                                                                >
+                                                                    Update
+                                                                </button>
                                                             )}
                                                         </td>
+
+
                                                     </tr>
                                                 );
                                             })
@@ -154,6 +187,7 @@ const AllBookingsAdminPage = () => {
             ) : (
                 <Login />
             )}
+
             <Footer />
         </div>
     );

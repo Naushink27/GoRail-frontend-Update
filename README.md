@@ -78,6 +78,14 @@
 # Day 13:
 * Completed Add Train api.
 * Completed update Train Api.
+
+# Day 14:
+* All errors and improvements.
+  * All users.
+  * All bookings.
+  * Add train 
+
+* Logout API for admin.
 ___________________________________________________________________________
 **** Errors:
 1. Please login first in booking api.
