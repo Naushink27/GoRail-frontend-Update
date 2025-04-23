@@ -34,14 +34,14 @@ const AddTrainPage = () => {
         try {
 
             const seatData = [
-                { type: 'general', count: generalSeats },
-                { type: 'sleeper', count: sleeperSeats },
-                { type: 'ac', count: acSeats }
+                { type: 'General', count: generalSeats },
+                { type: 'Sleeper', count: sleeperSeats },
+                { type: 'AC', count: acSeats }
             ]
             const amountData=[
-                {type:'general',amount:generalAmount},
-                {type:'sleeper',amount:sleeperAmount},
-                {type:'ac',amount:acAmount}
+                {type:'General',amount:generalAmount},
+                {type:'Sleeper',amount:sleeperAmount},
+                {type:'AC',amount:acAmount}
             ]
 
          const res= await axios.post(BASE_URL+'/add/train',{
@@ -242,7 +242,9 @@ const AddTrainPage = () => {
             ) : (
                 <Login />
             )}
-            <Footer />
+         <footer className="bg-blue-200 text-blue-900 text-center py-3">
+                © 2025 GoRail. All rights reserved.
+            </footer>
         </div>
     );
 };

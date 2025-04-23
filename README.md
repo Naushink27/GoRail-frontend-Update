@@ -84,8 +84,13 @@
   * All users.
   * All bookings.
   * Add train 
-
 * Logout API for admin.
+# Day 15:
+* All errors solved.
+* Show password also updated
+* Tested app.
+
+
 ___________________________________________________________________________
 **** Errors:
 1. Please login first in booking api.

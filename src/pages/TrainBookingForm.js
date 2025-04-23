@@ -16,7 +16,7 @@ const TrainBookingForm = () => {
   const [trainNumber,setTrainNumber]=useState('')
   const [seatType,setSeatType]=useState('')
   const [error,setError]=useState('')
-  const Navigate=useNavigate()
+  const navigate=useNavigate()
   const dispatch=useDispatch()
   const handleGetTrains=async()=>{
    try{ const res= await axios.post(BASE_URL+'/train',{
@@ -28,7 +28,7 @@ const TrainBookingForm = () => {
     },{withCredentials:true})
     console.log(res.data)
     dispatch(addTrain(res.data.train))
-    Navigate('/trains')
+    navigate('/trains')
   }
     catch(err){
       const errorMessage=err?.response?.data?.message

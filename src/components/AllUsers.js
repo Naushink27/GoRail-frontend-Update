@@ -81,7 +81,9 @@ try{
             ) : (
                 <Login />
             )}
-            <Footer />
+            <footer className="bg-blue-200 text-blue-900 text-center py-3">
+                © 2025 GoRail. All rights reserved.
+            </footer>
         </div>
     );
 };
