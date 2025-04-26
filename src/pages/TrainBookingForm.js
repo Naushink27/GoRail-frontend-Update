@@ -84,6 +84,7 @@ const TrainBookingForm = () => {
         <div className="flex flex-col">
           <label className="text-sm mb-1 flex items-center gap-2"><FaThList /> Seat Type</label>
           <select onChange={(e)=>setSeatType(e.target.value)} value={seatType} className="p-2 rounded-md bg-white/20 text-black focus:ring-2 focus:ring-pink-400">
+            <option value="" disabled>Select seat type</option>
             <option>General</option>
             <option>Sleeper</option>
             <option>AC</option>

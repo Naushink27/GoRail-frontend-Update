@@ -4,64 +4,91 @@ import { useSelector } from 'react-redux';
 import { BASE_URL } from '../utils/constants';
 import Navbar from './Navbar';
 
-
 const AllBookings = () => {
   const [bookings, setBookings] = useState([]);
-  const [ShowpaymentButton,setShowPaymentButton]=useState('')
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const user = useSelector((store) => store.user);
-  const userId = user._id;
-  const key='rzp_test_Ajos5K0E47aZxK';
+  const userId = user?._id;
+  const key = "rzp_test_Ajos5K0E47aZxK"
+
+  const fetchData = async () => {
+    if (!userId) {
+      setError('Please log in to view bookings.');
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axios.get(`${BASE_URL}/allbookings/${userId}`, {
+        withCredentials: true,
+      });
+      if (res.data && Array.isArray(res.data.data)) {
+        setBookings(res.data.data);
+      } else {
+        setBookings([]);
+        setError('No bookings found.');
+      }
+    } catch (err) {
+      console.error('Error fetching bookings:', err);
+      setError('Failed to load bookings. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/allbookings/${userId}`,{withCredentials:true});
-        console.log(res.data);  // Check if the data is being fetched correctly
-
-        setBookings(res.data.data); // Assuming data is inside the "data" property
-      } catch (err) {
-        console.error('Error fetching bookings:', err);
-      }
-    };
     fetchData();
   }, [userId]);
 
-  const handlePayment = async(bookingId) => {
-     try{
-      console.log(bookingId)
-      const res= await axios.post(BASE_URL+'/train/orders/'+bookingId,{},{withCredentials:true})
-      console.log(res)
-      const {
-        razorpayOrderId,amount,email,name
-      }=res.data.data[0];
 
-      const options = {
-        key: key, 
-        amount: amount * 100,
-        currency: "INR",
-        name: "GoRail Booking",
-        description: "Train Ticket Payment",
-        order_id: razorpayOrderId,
-        handler: function (res) {
-          alert("✅ Payment successful! Your booking will be confirmed soon.");
-          
-          setTimeout(() => {
-            window.location.reload(); 
-          }, 3000);
-        },
-        prefill: {
-          name: name,
-          email: email,
-        },
-        theme: {
-          color: "#0d9488",
-        },
-      };
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
-     }catch(err){
+  const handlePayment = async (bookingId) => {
+    try {
+      if (!window.Razorpay) {
+        alert('Razorpay SDK not loaded. Please try again later.');
+        return;
+      }
+      setLoading(true);
+      const res = await axios.post(
+        `${BASE_URL}/train/orders/${bookingId}`,
+        {},
+        { withCredentials: true }
+      );
+      if (res.data && res.data.data && res.data.data[0]) {
+        const { razorpayOrderId, amount, email, name } = res.data.data[0];
 
-     }
+        const options = {
+          key,
+          amount: amount * 100,
+          currency: 'INR',
+          name: 'GoRail Booking',
+          description: 'Train Ticket Payment',
+          order_id: razorpayOrderId,
+          handler: function (response) {
+            alert('✅ Payment successful! Your booking will be confirmed soon.');
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          },
+          prefill: {
+            name,
+            email,
+          },
+          theme: {
+            color: '#0d9488',
+          },
+        };
+        const razorpay = new window.Razorpay(options);
+        razorpay.open();
+      } else {
+        throw new Error('Invalid API response structure');
+      }
+    } catch (err) {
+      console.error('Error processing payment:', err);
+      alert('Failed to initiate payment. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -69,16 +96,19 @@ const AllBookings = () => {
       <Navbar />
       <div className="flex-grow p-6">
         <h1 className="text-3xl font-bold mb-6">All Your Bookings</h1>
+        {loading && <p className="text-center">Loading...</p>}
+        {error && <p className="text-red-500 text-center">{error}</p>}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {bookings.length === 0 ? (
-            <p>No bookings found.</p>
+          {bookings.length === 0 && !loading && !error ? (
+            <p className="text-center">No bookings found.</p>
           ) : (
             bookings.map((booking) => (
-                    
-              <div key={booking._id} className="bg-[#1e293b] p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300">
+              <div
+                key={booking._id}
+                className="bg-[#1e293b] p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300"
+              >
                 <h2 className="text-xl font-semibold mb-2">Train: {booking.trainName}</h2>
                 <p className="text-gray-400 mb-4">Booking ID: {booking._id}</p>
-
                 <div className="flex justify-between mb-4">
                   <div>
                     <h3 className="font-semibold">Payment Status:</h3>
@@ -93,7 +123,6 @@ const AllBookings = () => {
                     </p>
                   </div>
                 </div>
-
                 <div className="flex justify-between mt-4">
                   <div>
                     <h3 className="font-semibold">From:</h3>
@@ -104,26 +133,17 @@ const AllBookings = () => {
                     <p>{booking.destination}</p>
                   </div>
                 </div>
-
-                {/* Conditionally render the button */}
-                {booking.
-paymentStatus === 'pending' ? (
-                  <div className="mt-6 text-center">
+                <div className="mt-6 text-center">
+                  {booking.paymentStatus.toLowerCase() === 'pending' && (
                     <button
                       onClick={() => handlePayment(booking._id)}
                       className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-full"
+                      disabled={loading}
                     >
                       Pay Now
                     </button>
-                  </div>
-                ) : (
-                  <button
-                  onClick={() => handlePayment(booking._id)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-full"
-                >
-                  Download recipt
-                </button>
-                )}
+                  ) }
+                </div>
               </div>
             ))
           )}
