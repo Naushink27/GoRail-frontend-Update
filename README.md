@@ -90,6 +90,10 @@
 * Show password also updated
 * Tested app.
 
+# Day 16:
+* Add passengers done.
+
+
 
 ___________________________________________________________________________
 **** Errors:

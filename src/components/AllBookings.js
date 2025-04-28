@@ -23,6 +23,7 @@ const AllBookings = () => {
       const res = await axios.get(`${BASE_URL}/allbookings/${userId}`, {
         withCredentials: true,
       });
+      console.log(res.data);
       if (res.data && Array.isArray(res.data.data)) {
         setBookings(res.data.data);
       } else {
@@ -67,7 +68,7 @@ const AllBookings = () => {
           handler: function (response) {
             alert('✅ Payment successful! Your booking will be confirmed soon.');
             setTimeout(() => {
-              window.location.reload();
+              fetchData();
             }, 3000);
           },
           prefill: {
@@ -133,6 +134,34 @@ const AllBookings = () => {
                     <p>{booking.destination}</p>
                   </div>
                 </div>
+       {booking.passengers.length>0&&         <div className="bg-gray-900 text-white px-4 py-6 rounded-lg shadow-md">
+                  <h3 className="font-semibold mb-2">Booking Details:</h3>
+  {booking.passengers.length > 0 && (
+    <div className="overflow-x-auto">
+      <table className="min-w-full text-left text-sm table-auto border-separate border-spacing-y-2">
+        <thead>
+          <tr className="text-gray-300">
+            <th className="px-4 py-2">#</th>
+            <th className="px-4 py-2">First Name</th>
+            <th className="px-4 py-2">Last Name</th>
+            <th className="px-4 py-2">Age</th>
+          </tr>
+        </thead>
+        <tbody>
+          {booking.passengers.map((passenger, index) => (
+            <tr key={index} className="bg-gray-800 hover:bg-gray-700 transition-all rounded">
+              <td className="px-4 py-2">{index + 1}</td>
+              <td className="px-4 py-2">{passenger.firstName}</td>
+              <td className="px-4 py-2">{passenger.lastName}</td>
+              <td className="px-4 py-2">{passenger.age} years</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</div>}
+
                 <div className="mt-6 text-center">
                   {booking.paymentStatus.toLowerCase() === 'pending' && (
                     <button
@@ -142,7 +171,7 @@ const AllBookings = () => {
                     >
                       Pay Now
                     </button>
-                  ) }
+                  )}
                 </div>
               </div>
             ))
