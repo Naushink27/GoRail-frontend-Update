@@ -87,7 +87,6 @@ const Book = () => {
       setError('Please select a seat type.');
       return;
     }
-    // Validate passengers
     for (const passenger of passengers) {
       if (!passenger.firstName || !passenger.lastName || !passenger.age) {
         setError('All passenger fields are required.');
@@ -98,20 +97,15 @@ const Book = () => {
         return;
       }
     }
-
+  
     setLoading(true);
     setError('');
     try {
       const res = await axios.post(
         `${BASE_URL}/train/book/${trainId}`,
-        {
-          journeyDate,
-          seatType,
-          passengers,
-        },
+        { journeyDate, seatType, passengers },
         { withCredentials: true }
       );
-
       if (res.status === 200) {
         setBookingAlert('Booking successful! Redirecting to your bookings...');
         setTimeout(() => {
@@ -120,7 +114,13 @@ const Book = () => {
         }, 3000);
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'An error occurred during booking.');
+      const errorMessage = err.response?.data?.error || 'An error occurred during booking.';
+      if (err.response?.status === 401) {
+        setError(errorMessage.includes('login') ? 'Please log in to book a ticket.' : errorMessage);
+        navigate('/login');
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
