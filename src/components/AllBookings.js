@@ -41,7 +41,11 @@ const AllBookings = () => {
   useEffect(() => {
     fetchData();
   }, [userId]);
-
+  if (!window.Razorpay) {
+    alert("Razorpay SDK not loaded. Please refresh and try again.");
+    return;
+  }
+  
 
   const handlePayment = async (bookingId) => {
     try {
@@ -79,6 +83,7 @@ const AllBookings = () => {
             color: '#0d9488',
           },
         };
+        console.log('Razorpay options:', options);
         const razorpay = new window.Razorpay(options);
         razorpay.open();
       } else {

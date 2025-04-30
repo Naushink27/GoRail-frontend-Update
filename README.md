@@ -93,6 +93,11 @@
 # Day 16:
 * Add passengers done.
 
+# FINAL DAY TASKS:
+* Everything is working on local with fe and Be.
+* After deploying erros are occuring.
+* Test everything tomorrow
+
 
 
 ___________________________________________________________________________
