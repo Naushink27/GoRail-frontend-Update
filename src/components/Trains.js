@@ -22,7 +22,6 @@ const Trains = () => {
         const res = await axios.get(BASE_URL + '/train',{withCredentials: true});
         dispatch(addTrain(res.data)); // Assuming your backend provides the list of trains here
       } catch (err) {
-        console.log("Error in fetching data", err);
       }
     };
     fetchData();

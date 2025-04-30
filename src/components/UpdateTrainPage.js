@@ -26,7 +26,6 @@ const UpdateTrainPage = () => {
     const handleDeleteTrains = async (id) => {
         try {
             const res = await axios.delete(BASE_URL + '/delete/train/' + id, { withCredentials: true });
-            console.log(res.data.message);
             if (res.status === 200) {
                 setShowSuccessAlert(true);
                 setShowModal1(false);
@@ -36,7 +35,6 @@ const UpdateTrainPage = () => {
                 }, 3000);
             }
         } catch (err) {
-            console.error('Error deleting train:', err);
         }
     };
 
@@ -57,7 +55,6 @@ const UpdateTrainPage = () => {
                 },
                 { withCredentials: true }
             );
-            console.log(res.data.message);
             if (res.status === 200) {
                 setShowSuccessUpdateAlert(true);
                 setShowModal(false);
@@ -67,7 +64,6 @@ const UpdateTrainPage = () => {
                 }, 3000);
             }
         } catch (err) {
-            console.error('Error updating train:', err);
         }
     };
 
@@ -78,7 +74,6 @@ const UpdateTrainPage = () => {
             });
             dispatch(addTrain(response.data.trains));
         } catch (err) {
-            console.error('Error fetching train data:', err);
         }
     };
 

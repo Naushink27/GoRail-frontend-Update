@@ -13,7 +13,6 @@ const AllUsers = () => {
     const user = useSelector((store) => store.user);
     const getUsersData=async()=>{
         const users=await axios.get(BASE_URL+'/view/users',{withCredentials:true})
-        console.log(users.data.data)
         dispatch(addAllUser(users?.data?.data))
     }
     useEffect(()=>{
@@ -23,15 +22,12 @@ const AllUsers = () => {
 
     const handleDeleteUser=async(index)=>{
 try{
-    console.log(index)
     const targetUser=users[index]
     const targetUserId=targetUser._id;
-    console.log(targetUserId)
     
    const res= await axios.delete(BASE_URL+'/delete/user/'+ targetUserId,{withCredentials:true})
-    console.log(res)
     window.location.reload()
-}catch(err){console.log(err.message)}
+}catch(err){}
     }
 
     return (

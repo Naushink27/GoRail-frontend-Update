@@ -24,7 +24,6 @@ const AllBookingsAdminPage = () => {
             const res = await axios.get(`${BASE_URL}/bookings`, { withCredentials: true });
             dispatch(addAllBookings(res?.data?.bookings || []));
         } catch (err) {
-            console.log("Booking fetch error:", err.message);
         }
     };
 
@@ -41,7 +40,6 @@ const AllBookingsAdminPage = () => {
             setTimeout(() => setShowSuccessAlert(false), 5000);
             getBookingData();
         } catch (err) {
-            console.error("Failed to update booking status:", err);
 
 
             const message = err?.response?.data?.message || "Something went wrong";

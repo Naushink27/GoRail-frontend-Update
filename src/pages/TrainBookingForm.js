@@ -28,12 +28,10 @@ const TrainBookingForm = () => {
         seatType,
       }, { withCredentials: true });
 
-      console.log(res.data);
       dispatch(addTrain(res.data.train));
       navigate('/trains');
     } catch (err) {
       const errorMessage = err?.response?.data?.message;
-      console.log(errorMessage);
       setError(errorMessage);
 
       toast.error(errorMessage, {

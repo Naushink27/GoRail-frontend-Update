@@ -18,7 +18,6 @@ export default function Sidebar() {
       dispatch(removeUser());
       navigate('/');
     } catch (err) {
-      console.error('Error logging out:', err);
     }
   };
 

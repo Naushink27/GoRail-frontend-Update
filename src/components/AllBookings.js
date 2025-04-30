@@ -23,7 +23,6 @@ const AllBookings = () => {
       const res = await axios.get(`${BASE_URL}/allbookings/${userId}`, {
         withCredentials: true,
       });
-      console.log(res.data);
       if (res.data && Array.isArray(res.data.data)) {
         setBookings(res.data.data);
       } else {
@@ -31,7 +30,6 @@ const AllBookings = () => {
         setError('No bookings found.');
       }
     } catch (err) {
-      console.error('Error fetching bookings:', err);
       setError('Failed to load bookings. Please try again later.');
     } finally {
       setLoading(false);
@@ -83,14 +81,12 @@ const AllBookings = () => {
             color: '#0d9488',
           },
         };
-        console.log('Razorpay options:', options);
         const razorpay = new window.Razorpay(options);
         razorpay.open();
       } else {
         throw new Error('Invalid API response structure');
       }
     } catch (err) {
-      console.error('Error processing payment:', err);
       alert('Failed to initiate payment. Please try again later.');
     } finally {
       setLoading(false);

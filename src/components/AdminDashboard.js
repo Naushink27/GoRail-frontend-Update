@@ -40,7 +40,6 @@ const AdminDashboard = () => {
 
             setTrainStatuses(statuses);
         } catch (error) {
-            console.error("Failed to fetch train data", error);
         }
     };
 
@@ -49,7 +48,6 @@ const AdminDashboard = () => {
             const res = await axios.get(BASE_URL + '/view/users', { withCredentials: true });
             dispatch(addAllUser(res?.data?.data || []));
         } catch (err) {
-            console.log(err.message);
         }
     }
 
@@ -58,7 +56,6 @@ const AdminDashboard = () => {
             const res = await axios.get(BASE_URL + '/bookings', { withCredentials: true });
             dispatch(addAllBookings(res?.data?.bookings || []));
         } catch (err) {
-            console.log(err.message);
         }
     }
 

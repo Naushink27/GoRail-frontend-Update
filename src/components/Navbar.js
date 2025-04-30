@@ -12,7 +12,6 @@ const Navbar = () => {
   const user=useSelector((store)=>store.user)
   const dispatch=useDispatch();
   const navigate=useNavigate();
-  console.log(user)
   
   const routes = [
     { name: 'HOME', path: '/' },
@@ -26,10 +25,8 @@ const Navbar = () => {
       dispatch(removeUser());
       await persistor.purge(); 
   
-      console.log("Logout successful");
       navigate('/login');
     } catch (err) {
-      console.error("Logout failed", err);
     }
   };
   const handleLogin=()=>{
