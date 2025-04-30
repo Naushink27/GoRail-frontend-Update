@@ -54,15 +54,12 @@ const AddTrainPage = () => {
             seats:seatData,
             journeyDate,
             amount:amountData},{withCredentials:true})
-            console.log(res);
           if(res.status==201){  setShowSuccessAlert(true)
             setTimeout(() => {
                 setShowSuccessAlert(false);
             }, 3000);}
         
         } catch (err) {
-            console.log(err)
-            console.error("Train Add Error:", err.message);
            const message=err.response.data.message||'Something went wrong!'
             setShowErrorAlert(message)
             setTimeout(()=>{
