@@ -10,7 +10,7 @@ const AllBookings = () => {
   const [error, setError] = useState(null);
   const user = useSelector((store) => store.user);
   const userId = user?._id;
-  const key = "rzp_test_Ajos5K0E47aZxK"
+  const key = "rzp_test_hccYJSSRLsuGsj"
 
   const fetchData = async () => {
     if (!userId) {
