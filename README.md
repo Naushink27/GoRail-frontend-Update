@@ -98,7 +98,8 @@
 * After deploying erros are occuring.
 * Test everything tomorrow
 
-
+# Update:
+* List for all cities done.
 
 ___________________________________________________________________________
 **** Errors:
