@@ -43,11 +43,8 @@ const TrainBookingForm = () => {
         setIndianCities(response.data);
       } catch (error) {
         console.error('Error fetching Indian cities:', error);
-        toast.error('Failed to load city list from backend. Please ensure the backend is running and the endpoint is correct.', {
-          position: 'top-center',
-          autoClose: 5000,
-          theme: 'dark',
-        });
+     
+     
       }
     };
 
