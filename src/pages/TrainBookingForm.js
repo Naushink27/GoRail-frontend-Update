@@ -78,7 +78,7 @@ const TrainBookingForm = () => {
   const debouncedFetchDestination = useDebounce((query) => fetchCitySuggestions(query, setDestinationSuggestions), 300);
 
   const handleGetTrains = async () => {
-    if (!source || !destination || !date) {
+    if (!source && !destination && !date&& !trainNumber && !seatType) {
       const errorMessage = 'Please fill in all required fields';
       setError(errorMessage);
       toast.error(errorMessage, {
