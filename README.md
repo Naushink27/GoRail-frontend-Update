@@ -1,107 +1,127 @@
-**************goRail Frontend************
+# 🚆 GoRail - Complete Railway Management App
 
-1.Installed all packages that are required.
+🔗 **Live Demo**: [go-rail.vercel.app](https://go-rail.vercel.app)
 
-# Day1:
+---
 
-* Routing-Just did basic routings only for general routes.
-* Didnt go well due to finding the tailwind library ... will use daisyui at the end
+## 📖 Overview
 
-# Day2:
-* Landing page done .
+**GoRail** is a full-stack railway booking and management system with separate functionalities for **Admin** and **User**.  
+It provides secure authentication, train booking, real-time payment (via Razorpay), email notifications, and complete admin control.
 
-* What next:
- - User will search for a train and got lists of trains
- - each train will have a book train option.
- - If user is not logged in it should navigate to login page.
- - And after succesfully logged in user should get the train which is searched before log in,
- - Try to add train loader between pages loads.
- - Create get train page.
+Built using **MERN Stack**, styled beautifully with **Tailwind CSS** and **DaisyUI**, and deployed using **Vercel**.
 
- # Day3:
- * Created redux store. 
- * Created train slice with all the trains the user wants.
- * Then validate trainSearchForm .
- * Enabled toastify errors.
- * Added liltle Animation like loader.
+---
 
- 
-# Day4:
-* Created Trains page.
-* Subscribed to the train slice.
-* Also showed details of train.
-* Created user slice.
-* also store train data in redux persist bcs as page loads data get removed .
-* Redirection to login page.
+## 🌐 Application Structure
 
-# Day5:
-* Created login page.
-* Created Signup page.
-* Also handled errors and toaster notifications.
-* Implemented logout api .
-* Also show login message if user dont exist
-* toggle based Login and signup form 
+- **🔐 Admin Panel**
+- **👤 User Interface**
+- **📧 Mail System via Nodemailer**
+- **💳 Razorpay Payment Integration (Test Mode)**
 
-# Day6:
-* Some bugs from login,signup and logout.
-* Book component.
+---
 
-# Day7:
-* Complete book api.
-* Create api for get all bookings.
-* Show buttons for payment if not done.
+## 🛠️ Tech Stack
 
-# Day8:
-* Complete book api.
-* Create api for get all bookings.
-* And solved so many erros.
- 
-# Day 9:
-* payment done .
-* have to import razorpay script in html
-* Solved all errors.
-* About and contact us oage.
-* Minor navbar changes
+**Frontend**:
+- React.js
+- Tailwind CSS
+- DaisyUI
 
-# day 10:
-* built admin dashboard.
+**Backend**:
+- Node.js
+- Express.js
+- MongoDB
 
-# Day 11:
-* Add dynamic data onto dashboard.
-* Created users page where users can be deleted by admin.
-* Created bookings page.
+**Other Tools**:
+- JWT for Authentication
+- Nodemailer for Emailing
+- Razorpay for Payment
 
-# Day12:
-* Completed allBookings page and also completed journetStatus update.
-* Started add train Page.
+---
 
-# Day 13:
-* Completed Add Train api.
-* Completed update Train Api.
+## 🧑‍💻 Admin Side
 
-# Day 14:
-* All errors and improvements.
-  * All users.
-  * All bookings.
-  * Add train 
-* Logout API for admin.
-# Day 15:
-* All errors solved.
-* Show password also updated
-* Tested app.
+### 🔑 Admin Login (JWT Authenticated)
+- Admin logs in with unique credentials.
+- Secured using **JWT tokens**.
 
-# Day 16:
-* Add passengers done.
+### 🖥️ Admin Dashboard
+![Admin Landing](./Screenshots/Admin%20Landing.png)
 
-# FINAL DAY TASKS:
-* Everything is working on local with fe and Be.
-* After deploying erros are occuring.
-* Test everything tomorrow
+#### 👥 All Users
+- View all registered users
+- Delete any user
+![All Users](./Screenshots/ALL%20USER.png)
 
-# Update:
-* List for all cities done.
+#### 📄 All Bookings
+- View all passenger bookings
+- Update journey status (Confirm or Cancel)
+![All Bookings](./Screenshots/All%20bookings-admin.png)
 
-___________________________________________________________________________
-**** Errors:
-1. Please login first in booking api.
-2.Payment button not for all cards.
+#### ➕ Add Train
+- Add new train details
+![Add Train](./Screenshots/AddTrain.png)
+
+#### ✏️ Update Train
+- Update train details
+![Update Train](./Screenshots/Update.png)
+
+---
+
+## 👤 User Side
+
+### 🏠 Landing Page (Before Login)
+- Search train by source and destination
+- No login required to search
+![Landing Page](./Screenshots/Landing%20page-user.png)
+
+### 📝 Sign Up / Login (JWT Authentication)
+- New users can register
+- Secure login with token-based auth
+
+### 🧾 Booking Train
+- Provide passenger details and seat type
+- Booking gets stored in database
+![Booking](./Screenshots/Booking.png)
+
+### 💳 Razorpay Payment Integration
+- After booking, user sees pending payment
+- Click "Pay" to open Razorpay test window
+- On payment, status is updated
+
+### 📧 Email Notifications via Nodemailer
+- On booking: confirmation email
+- On admin approval: "Ticket Confirmed" email
+
+---
+
+## 📬 Contact Admin
+
+- "Contact Us" form
+- User can send queries to admin via email
+- Powered by **Nodemailer**
+![Contact Form](./Screenshots/contact.png)
+
+---
+
+## 📦 How to Run Locally
+
+### Backend
+
+```bash
+git clone https://github.com/yourusername/gorail.git
+cd backend
+npm install
+npm run dev
+
+```
+## Deploy
+- Frontend deployed on: **Vercel**
+- Backend deployed on: **Railway**
+
+## Connect with Me
+- **linkedIn**:[LinkedIn](www.linkedin.com/in/naushink27)
+- **Github**:[github](www.github.com/Naushink27)
+  
